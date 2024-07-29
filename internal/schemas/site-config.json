@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "description": "Site Wundergraph configuration.",
+  "required": [
+    "api_key"
+  ],
+  "properties": {
+    "api_key": {
+      "type": "string"
+    },
+    "api_url": {
+      "type": "string"
+    }
+  }
+}
