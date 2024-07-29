@@ -122,32 +122,17 @@ func (p *WundergraphPlugin) RenderTerraformResources(site string) (string, error
 	template := `
 		provider "wundergraph" {
 			{{ renderProperty "api_key" .ApiKey }}
-			{{ renderOptionalProperty "api_url" .ApiUrl }}
+			{{if .ApiUrl}}
+			{{ renderProperty "api_url" .ApiUrl }}
+			{{end}}
 		}
 	`
 	return helpers.RenderGoTemplate(template, cfg)
 }
 
-func (p *WundergraphPlugin) RenderTerraformComponent(site string, _ string) (*schema.ComponentSchema, error) {
-	cfg := p.getSiteConfig(site)
-	if cfg == nil {
-		return nil, nil
-	}
-
-	template := `
-		wundergraph = {
-			{{ renderProperty "api_key" .ApiKey }}
-			{{ renderOptionalProperty "api_url" .ApiUrl }}
-		}
-	`
-
-	vars, err := helpers.RenderGoTemplate(template, cfg)
-	if err != nil {
-		return nil, err
-	}
-
+func (p *WundergraphPlugin) RenderTerraformComponent(_ string, _ string) (*schema.ComponentSchema, error) {
 	result := &schema.ComponentSchema{
-		Variables: vars,
+		Providers: []string{"wundergraph = wundergraph"},
 	}
 
 	return result, nil
