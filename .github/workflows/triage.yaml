@@ -12,6 +12,7 @@ jobs:
   add_to_project:
     name: Push issue or PR to board
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: get app token
         id: get-app-token
